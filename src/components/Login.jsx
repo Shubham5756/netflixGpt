@@ -11,6 +11,7 @@ const Login = () => {
 
     const toggleSignInForm = () => {
             setIsSignInForm(!isSignInForm)
+            console.log(isSignInForm)
     }
     const handleButtonClick = () => {
         console.log(email.current.value)
