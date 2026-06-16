@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useEffect } from "react";
+import Header from "./Header";
+import MainContainer from "./MainContainer";
+import SecondoryContainer from "./SecondoryContainer";
+import { API_OPTIONS } from "../utils/Constants";
+import { setNowPlayingMovies } from "../utils/movieSlice";
+import { useDispatch } from "react-redux";
+import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 
 const Browse = () => {
-  return (
-    <div>
-      <h1>Browse</h1>
-    </div>
-  )
-}
+  useNowPlayingMovies();
 
-export default Browse
+  return (
+    <div className=" w-screen">
+      <Header />
+      <MainContainer />
+      <SecondoryContainer />
+    </div>
+  );
+};
+
+export default Browse;
