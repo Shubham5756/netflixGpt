@@ -2,7 +2,7 @@ import React from "react";
 
 const VideoTitle = ({ title, overview }) => {
   return (
-    <div className=" w-screen aspect-video absolute pt-48 text-white flex flex-col  pl-12 border-4 bg-gradient-to-r from-black">
+    <div className=" w-screen aspect-video h-[700px] absolute pt-48 text-white flex flex-col  pl-12 ">
       <h1 className="text-5xl font-bold w-1/4 flex text-start">{title}</h1>
       <p className="text-start my-3 w-1/4">{overview}</p>
       <div className="flex   ">
