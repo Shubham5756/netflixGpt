@@ -3,9 +3,12 @@ import { useState } from "react";
 import Header from "./Header";
 import checkValidData from "../utils/CheckValidData";
 import { auth } from "../utils/Firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { updateProfile } from "firebase/auth";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
 const Login = () => {
@@ -24,10 +27,12 @@ const Login = () => {
   const handleButtonClick = () => {
     console.log(email.current.value);
     console.log(password.current.value);
-    const error = checkValidData(email.current.value, password.current.value);
-    setErrorMessage(error);
-
     if (!isSignInForm) {
+      const error = checkValidData(email.current.value, password.current.value);
+      setErrorMessage(error);
+
+      if (error) return;
+
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
@@ -66,6 +71,24 @@ const Login = () => {
           navigate("/");
         });
     } else {
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          dispatch(
+            addUser({
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+            }),
+          );
+          navigate("/browse");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + ": " + errorMessage);
+        });
     }
   };
 
